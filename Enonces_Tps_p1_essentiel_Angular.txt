@@ -1,0 +1,204 @@
+#5- les bases du framework angular (composants, services, routing, ...)
+Objectif :
+    • être capable programmer une "IHW/Web" en mode "Single Page Application" en se basant sur le framework angular
+Contenu :
+- comprendre l'environnement de développement angular (angular-cli : ng new , ng serve , ng generate , ng build, ...)
+- structure d'une application angular (composants, modules, services, pipes, ...)
+- templates HTML , interpolations {{}} , binding ( ([ngModel]) ,  ...) , gestion d'événements , ... , gestion dynamique des styles css
+- Composants réutilisables (@Input, @Output, <ng-content>, ...)
+- injection de dépendance et services
+- intégration de bootstrap-css dans angular (ngx-bootstrap)
+- formulaires (template-driven, ...)
+- routing angular (navigations,...)
+
+****************************************************************************
+***********  TP ************************************************************
+
+0a. installation de nodeJs et npm (si nécessaire)
+si node -v et npm -v se sont pas des commandes reconnues (dans CMD)
+alors télécharger et installer nodeJs (pour windows 64 bits).
+relancer ensuite une nouvelle fenêtre CMD et npm -v .
+
+0b. installation de typescript (si nécessaire)
+si tsc -v est une commande inconnue (dans CMD),
+alors lancer 
+npm install -g typescript
+
+0c. installation de angular-cli
+si ng -help est une commande non reconnue (dans CMD) alors lancer
+npm install -g @angular/cli
+
+0d. installer si nécessaire l'IDE "Visual Studio code" .
+
+1. création d'un nouveau projet "application angular"
+Dans c:\temp (ou c:\tp) ou ailleurs:
+lancer la commande ng new my-app
+choisir y à la question "activer le routing angular"
+choisir scss comme format de feuilles de styles
+se placer dans le répertoire my-app (cd my-app)
+lancer la commande
+ng serve -o
+et verifier le fonctionnement initial via http://localhost:4200
+Via l'éditeur "Visual Studio code" , ouvrir le "folder" c:\temp\my-app
+et modifier le fichier src/app/app.component.html en supprimant tout
+l'ancien contenu et en y placant à la place
+<p> welcome to {{title}} </p>
+<!-- <router-outlet></router-outlet> --> 
+Vérifier les changements (http://localhost:4200)
+
+2. Des connaissances élémentaires sur typescript sont nécessaires pour la suite
+  --> apprendre ou réviser typescript si nécessaire.
+
+3a. nouveaux composants / angular
+revenir sur le projet "my-app" (angular) via un open folder de visual-studio-code
+relancer (si besoin) ng serve -o au sein d'un terminal (nouveau ou pas)
+Au sein d'un nouveau terminal de visual-studio-code 
+lancer les commandes suivantes:
+ng g component header
+ng g component footer
+ng g component basic
+se placer dans src/app/basic (cd) et lancer les commandes: 
+ng g component calculatrice
+ng g component tva
+Repérer dans src/app/header/header.ts la valeur app-header du sélecteur
+Ajouter les sous composants <app-header></...> <app-basic></...> <app-footer></...>
+dans app.component.html
+De la même façon ajouter les sous-sous-composants calculatrice et tva
+dans src/app/basic/basic.component.html
+Modifier éventuellement certaines couleurs de fond (....scss) pour bien
+distinguer les sous-composants (http://localhost:4200) .
+
+3b. expressions et binding de propriétés et événements
+coder le composant calculatrice.component (.ts, .html) en même temps que le formateur
+( exemple expliqué avec FormsModule ajouté dans partie imports de app.module.ts)
+coder (seul) le composant tva.component (.ts, .html, ...) à peu près de la même façon
+variantes (possibles/faculatives) sur tva.component:
+- choix du taux via liste déroulante (avec option basé sur *ngFor et listeTaux)
+- déclenchement du calcul via (click) sur button 
+   ou bien (input) sur zone saisie ou bien
+  (change) sur liste déroulante (<select>) .
+- afficher (pour le fun) le montant ht en bleu si positif (ou rouge si négatif)
+  en utilisant la syntaxe [style.color]="..."
+  et/ou [class.className]="...." (+ classe de style coté .(s)css )
+
+3c. validations de formulaire (en mode "template-driven" puis éventuellement "model-driven")
+créer un nouveau composant "LoginComponent" de premier niveau (dans src/app)
+via ng g component login
+pour bien organiser le code , créer dans src/app un nouveau "folder" 
+"src/app/common" et un sous folder "src/app/common/data" 
+apres s'etre placé dans src/app/common/data (cd), générer une nouvelle classe
+de données "Login" via la commande ng g class login .
+Au sein de la classe Login, ajouter 3 attributs de type "string" nommés
+"username" , "password" et "roles" .
+Au sein de la classe LoginComponent , ajouter un attribut de login de type Login
+et ayant = new Login() comme valeur par défaut.
+Ajouter également dans LoginComponent (coté .ts):
+- une propriété message de type string 
+- une méthode onLogin() qui dans un premier temps se contentera
+  de mettre à jour le message en fonction des valeurs saisies cotés .html
+Dans LoginComponent.html ajouter de quoi saisir username, password et roles.
+avec des ngModel paramétrés sur login.username etc et avec required .
+Ajouter également un bouton poussoir "submit/login" déclenchant onLogin().
+Dans src/styles.scss ajouter des mises en forme pour les classes de styles
+d'angular : .ng-valid { ....}  , .ng-invalid { .... } et tester le comportement.
+Ajouter ensuite <form ...> </form> du coté .html avec également name="..." 
+sur chaque zone de saisie . Faire en sorte que le bouton poussoir reste grisé/disabled
+tant que le formulaire n'est pas globalement valide. tester bien le tout.
+suite facultative du Tp: coder une version de LoginComponent en mode
+"model driven / reactive form / form builder" ou bien une approche "mixte" .
+ 
+3d. ajout et utilisation de bootstrap css dans l'application angular:
+étudier éventuellement bootstrap en téléchargeant test_bootstrap.zip
+depuis l'url https://github.com/didier-mycontrib/test_bootstrap puis en extrayant
+le contenu de ce .zip dans un répertoire temporaire
+et en analysant les exemples de la partie bs4/index.html (et form-layout.html).
+npm install -s bootstrap
+npm install -s font-awesome
+ajuster/agrandir la partie "styles": [ ... ] de my-app/angular.json
+effectuer des petits tests (ex: class="btn btn-primary" sur un bouton)
+Arrêter et redémarrer si besoin ng serve (Ctrl-C , O , ng serve) .
+Utiliser ensuite les classes de styles de bootstrap css 
+(ex: "row" , "col-sm-4" , "form-horizontal" , ...) au sein de 
+login.component.html pour obtenir un formulaire "responsive" et "bien aligné".
+Partie facultative du Tp: peaufiner d'autres parties de l'application
+(app.component.html , header.component.html avec bootstrap).
+
+3e. ajout de ngx-bootstrap pour les aspects dynamiques (ex: basculement d'onglets)
+ng add ngx-bootstrap component tabs
+vérifier absence de doublon dans la partie "styles" : [ ... ] de angular.json
+et les ajouts effectués dans app.module.ts et package.json .
+Utiliser ensuite les composants <tabset> et <tab> au sein de basic.component.html
+de façon à ce que les sous composants "app-tva" et "app-calculatrice" soient
+insérés dans 2 onglets avec un basculement automatique .
+Arrêter et redémarrer si besoin ng serve s'il est pas gentil (buggé) .
+
+3f. propriété "titre" paramétrable via @Input() sur HeaderComponent
+ajouter dans header.component.ts une propriété titre , préfixée par @Input()
+et ayant "default title" comme valeur par défaut.
+Ajouter l'affichage de {{titre}} dans header.component.html (parent)
+Visualiser le résultat (http://localhost:4200) .
+Au sein de app.component.html , ajuster la propriété [titre] de app-header
+de différentes manières (à tester successivement):
+- via une valeur fixe (ex: 'super-title')
+- via une copie de la propriété title de app.component.ts
+
+3g. évenement "changementHumeur" via @Output sur FooterCommponent
+ajouter dans footer.component.ts une propriété humeur , une listeHumeurs = [ "bonneHumeur",
+"mauvaiseHumeur"] et un eventEmitter "changementHumeur" préfixé par @Output
+coté footer.component.html , choisir l'humeur dans une liste déroulante
+et appeler onChangeHumeur() sur événement (change)
+coté .ts , appeler .emit() sur l'eventEmitter "changementHumeur" dans onChangeHumeur() .
+Au sein du parent app.component.html , effectuer un binding de l'événement 
+(changemenHumeur) de façon à appeler onChangementHumeur($event) sur
+le AppComponent (.ts) .
+Finalement onChangementHumeur(evt) pourra afficher la nouvelle humeur via
+console.log() ou alert() ou ...
+
+3h. visualiser l'ordre de déclenchement de ngOnChanges() , ngOnInit() , constructor()
+via quelques ajouts de console.log()
+
+3i. intégration d'un module de composants personnalisés et réutilisables "bs-util":
+- télécharger le zip de https://github.com/didier-mycontrib/angular8plus
+- extraire le contenu de ce .zip dans un répertoire temporaire.
+- recopier toute la partie ng-bs4-app/src/bs-util au sein de votre projet angular
+  my-app/src/bs-util (src/bs-util doit normalement être à coté de src/app) .
+- visualiser le contenu de src/bs-util/bs-util.module.ts (la partie exports).
+- revenir sur src/app.module.ts et ajouter BsUtilModule dans la partie imports .
+- utiliser ensuite <bsu-toggle-panel [title]="'...'" > ... </bsu-toggle-panel>
+  dans src/app/basic/basic.component.html ou ailleurs .
+
+3j. première approche du routing angular (après avoir vu début chapitre routing)
+- générer un nouveau composant "welcome" (WelcomeComponent) de premier niveau
+- paramétrer quelques routes simples dans src/app-routing.module.ts
+  (ex: welcome/WelcomeComponent , basic/BasicComponent, login/LoginComponent)
+- (ré-)intégrer <router-outlet></router-outlet> dans app.component.html
+- ajouter quelques liens hypertextes dans src/app/header/header.commponent.html
+   de type <a [routerLink]="['/welcome']"> welcome</a> &nbsp;
+- tester le tout et supprimer d'éventuel doublon dans app.component.html
+
+
+4a. Service commun pour partager données "utilisateur"
+créer le sous "folder" src/app/common/service pour bien ranger les services
+se placer dans src/app/common/service (cd) et générer un nouveau service
+via ng g service preferences .
+Au sein de PreferencesService, ajouter (en public) la propriété couleurFondPreferee
+(de type string) avec une valeur par défaut.
+Injecter le service "PreferencesServices" (en public) dans les constructeurs
+de HeaderComponent et FooterComponent.
+Faire en suite en sorte que l'on puisse changer la valeur de
+preferencesService.couleurFondPreferee (via liste déroulante ou autre)
+au sein de FooterComponent et que cette nouvelle valeur choisie
+soit utilisée en tant que couleur de fond de HeaderComponent .
+NB: ce tp pourra être ultérieurement amélioré via BehaviorSubject .
+
+4abis (TP FACULATIF)
+Via un éventuel service "TraductionService" basé sur le même principe que le
+Tp précédent (4a), mettre en oeuvre un service de traduction "maison", retournant 
+les libellés en fonction de clefs et d'un choix le langue utilisateur (ex: "fr" , "us", 
+"de", "es" ,"it" ). Le choix de la langue pourra éventuellement être effectué via
+une liste déroulante (dans header ou footer).
+Tous les composants intéressés auront simplement besoin d'injecter le service de traduction
+afin de récupérer les traductions à afficher via {{...}}
+
+
+ 

@@ -1,0 +1,144 @@
+
+****************************************************************************
+***********  TP ************************************************************
+
+0,1,2,3,4a : voir énoncés partie 1 (essentiel angular)
+
+
+4b. Récupération de la partie "backend-tp-api" (pour Tp "appels Ws REST")
+télécharger le zip de https://github.com/didier-mycontrib/tp_node_js
+et l'extraire dans un répertoire temporaire.
+Se placer dans le sous répertoire "backend-tp-api" et lancer la commande
+npm install pour télécharger les dépendances techniques dans node_modules
+lancer ensuite lancer_tsc.bat pour compiler ".ts" en ".js"
+lancer ensuite lancer_nodeJs_noDB.bat pour démarrer l'appli "backend-tp-api"
+en mode "sans base de données à préablement installer".
+Visualiser certains Web Services REST en mode get via l'URL
+http://localhost:8282/test-ws.
+NB: via l'url http://localhost:8282 on pourra accéder à un exemple d'application
+angular dont le code (généré par ng build --prod) a été fusionné avec la partie
+backend nodeJs/express de façon à tout télécharger depuis le même endroit (ici locahost:8282).
+
+
+4c. Service "DeviseService" pour récupérer des données
+- générer une nouvelle classe de données "Devise" dans src/app/common/data
+  structurer cette classe avec .code (string) , .name (string) , .change (number)
+- générer un nouveau service "DeviseService" dans src/app/common/service
+  via ng g service devise
+- générer (dans src/app) , un nouveau composant "ConversionComponent"
+  injecter le service "DeviseService" dans "ConversionComponent"
+- coder plusieurs versions successives de "DeviseService" et "ConversionComponent"
+  pour que l'on puisse effectuer des conversions de monnaies
+  en appelant certains web-services "REST" :
+    - pré-version a : simulation sans asynchronisme (tableau de devises)
+    - version b : simulation en asynchrone (via Observable<...>/of())
+    - version c : réel appel de WS-REST avec HttpClient
+                  et avec ng serve --proxy-config proxy.conf.json
+                  (url : http://localhost:8282/devise-api/public/devise  et
+                    http://localhost:8282/devise-api/public/convert?source=EUR&target=USD&amount=200 )
+
+4d. Service "LoginService" pour appel HTTP en mode post et récupération token
+- générer un nouveau service "LoginService" dans src/app/common/service
+  via ng g service login
+- injecter ce service dans LoginComponent (du tp "validation formulaire")
+- utiliser "PostMan" pour comprendre le fonctionnement du Web-service
+  dont l'URL est http://localhost:8282/login-api/public/auth qu il est prévu d'invoquer
+  en mode "POST" avec "Content-Type" : "application/json" et avec les données "raw"
+  suivantes: { "username" : "admin1" , "password" : "pwdadmin1" , "roles" : "admin" }
+- coder ensuite (dans src/app/common/data) , une classe "LoginResponse" correspondant
+  à la structure de la réponse renvoyée.
+- coder ensuite la méthode suivante dans LoginService en s'appuyant sur http.post() :
+  public postLogin(login: Login): Observable<LoginResponse> .
+- appeler ensuite cette méthode au sein de doLogin() de LoginComponent
+  avec un .subscribe() et des callbacks sous forme de lambdas/arrow-functions .
+- bien gérer les différents cas (message positif , message d'erreur, ...)
+- via un ajout de .pipe(
+                          tap( (loginResponse) => { traitement_supplémentaire; })
+                       )
+  au sein de LoginService.postLogin() , faire en sorte que le token soit stocké en 
+  sessionStorage ou localStorage en cas de réponse positive.
+  Ainsi mémorisé, ce token pourra ensuite être systématiquement retransmis au sein des futures
+  requêtes http via un intercepteur angular de façon à pouvoir appeler des WS privés/sensibles.
+
+4f. Tp simple sur "pipe" 
+- peaufiner tva.compoment.html en ajoutant un pipe pour arrondir les résultats
+  (tva,ttc) des calculs à 2 chiffres après la virgule.
+- utliser éventuellement le pipe {{ title | uppercase }} dans un autre composant 
+  (ex: app.component.ts ou header.component.ts ou ...)
+
+4g. Tp navigation par code
+- dans login.component.html , ajouter un nouveau bouton de libellé "vers admin devise"
+  qui sera grisé/disabled tant que login pas effectué
+- le code caché derrière ce bouton effectuera une navigation vers un des composants
+  configuré dans les routes (ex: "adminDevise" ou un autre à défaut) .
+
+4h. Tp routing évolué (après avoir abordé le milieu du chapitre "routing")
+VERSION COURTE (conseillée):
+----------------------------
+Le composant intermediaire "basic" (comportant les sous composants "tva" et "calculatrice")
+a déjà été codé en 3 variantes :
+   1) avec <app-calculatrice> et <app-tva> toujours affichés
+   2) avec basculement via onglets dynamiques de ngx-bootstrap (tabset,tab)
+   3) avec intégration dans <bsu-toggle-panel>
+On va maintenant mettre en oeuvre une quatrième variante utilisant un sous-niveau 
+"children : []" du routing angular et une nouvelle utilisation de <router-outlet>.
+Premiere version:
+- ajouter <router-outlet></router-outlet> dans basic.component.html
+  et commenter/retirer les anciens blocs <bsu-toggle-panel> ou <tabset><tab>...</>
+     ou <app-tva> et <app-calculatrice>
+- ajouter dans basic.component.html
+   <a routerLink="/basic/calculatrice" >calculatrice</a><br/>
+   <a routerLink="/basic/calculatrice" >calculatrice</a><br/>
+- ajuster un bloc de configuration de ce type dans app-routing.module.ts:
+ { path: 'basic', component: BasicComponent ,
+ children: [
+  { path: 'tva', component: TvaComponent },
+  { path: 'calculatrice', component: ....Component },
+  { path: '', redirectTo: 'tva', pathMatch: 'prefix'}
+  ]
+ }
+- tester le nouveau comportement de l'application
+Seconde version (avec 2 modes sur calculatrice : "simple" et "sophistiquee"):
+- ajouter (dans calculatrice.component.ts):
+  modeChoisi : string;
+- ajouter (dans calculatrice.component.html) un paramétrage pour faire en
+  sorte que le bouton poussoir "multiplication" ne soit affiché
+  que si modeChoisi=='sophistiquee'
+
+- ajuster les liens hypertextes suivants (basic.component.html):
+    <a routerLink="/basic/calculatrice/simple" >calculatrice simple</a><br/>
+    <a routerLink="/basic/calculatrice/sophistiquee" >calculatrice sophistiquee</a><br/>
+- ajuster la route imbriquée au sein app-routing.module.ts:
+children: [ ...,
+  { path: 'calculatrice/:mode', component: CalculatriceComponent }, ...
+  ]
+- ajouter et ajuster (dans calculatrice.component.ts):
+constructor(route : ActivatedRoute) {
+    route......subscribe(
+      (params: ....=> {
+        this.modeChoisi = params[....];
+      }
+    )
+    //NB:  { path: 'calculatrice/:mode', ... },
+   }
+- tester le nouveau comportement de l'application
+4i,j,k,l,...,z
+  Tp libres (selon inspiration du moment) .
+  
+  
+5a. Début de mise en production 
+ - lancer une première fois ng build (sans l'option --prod)
+  et visualiser le contenu généré dans le répertoire dist (tailles des fichiers)
+ - lancer une seconde fois ng build avec l'option --prod
+ - corriger les éventuelles erreurs d'incohérence jusque là passées inaperçues.
+ - visualiser le nouveau contenu généré dans le répertoire dist (tailles des fichiers)
+ - recopier le contenu de my-app/dist dans un répertoire temporaire
+   (ex: c:\temp_qui_va_bien) 
+ - installer le mini serveur http "lite-server" via npm install -g 
+ - au sein de  c:\temp_qui_va_bien\my-app ,lancer (via cmd) la commande
+   lite-server
+ - visualiser le résultat sur http://localhost:3000
+ - noter que toute la partie "appel de WS REST" ne fonctionne pas bien
+   il faudrait mettre en oeuvre une config de type "reverse-proxy" sur le serveur
+   http ou bien mélanger le contenu de my-app/dist/my-app avec un backend
+   (java ou nodeJs ou autre)  .
