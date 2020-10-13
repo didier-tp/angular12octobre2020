@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { BsUtilModule } from '../bs-util/bs-util.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    BsUtilModule
   ],
   providers: [],
   bootstrap: [AppComponent]
