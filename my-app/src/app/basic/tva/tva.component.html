@@ -3,7 +3,7 @@ ht: <input type="text" [(ngModel)]="ht" (input)="onCalculerTvaEtTtc()"
      [class.positif]="ht>=0" [class.negatif]="ht<0" /> <br/>
 tauxTva: <!-- <input type="text" [(ngModel)]="tauxTva" /> -->
 <select  [(ngModel)]="tauxTva" (change)="onCalculerTvaEtTtc()" >
-   <option *ngFor="let tauxTva of listeTaux">{{tauxTva}}</option>
+   <option *ngFor="let tauxTva of listeTaux" [ngValue]="tauxTva">{{tauxTva}}%</option>
 </select>    
     <br/>
 <!-- <input type="button" value="calculer" (click)="onCalculerTvaEtTtc()" /><br/> -->
