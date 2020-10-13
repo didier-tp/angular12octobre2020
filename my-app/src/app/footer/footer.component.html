@@ -1,1 +1,5 @@
 <p class="piedpage">footer works!</p>
+<select [(ngModel)]="humeurSelectionnee"
+       (change)="onChangeH()">
+    <option *ngFor="let h of listeHumeurs">{{h}}</option>
+</select>

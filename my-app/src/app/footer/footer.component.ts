@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -6,6 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+
+  listeHumeurs = [ "humeurInconnue" , "bonneHumeur" , "mauvaiseHumeur"];
+  humeurSelectionnee : string = "humeurInconnue";
+
+  onChangeH(){
+    this.changementHumeur.emit({value:this.humeurSelectionnee});//emission vers parent
+  }
+
+  @Output()
+  changementHumeur : EventEmitter<{value:string}> = new EventEmitter<{value:string}>() ;
 
   constructor() { }
 
