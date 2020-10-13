@@ -5,10 +5,10 @@ import { LoginComponent } from './login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  { path: 'welcome', component: WelcomeComponent },
-  { path: '', redirectTo: '/welcome', pathMatch: 'full'},
-  { path: 'login', component: LoginComponent },
-  { path: 'basic', component: BasicComponent }
+  { path: 'ngr-welcome', component: WelcomeComponent },
+  { path: '', redirectTo: '/ngr-welcome', pathMatch: 'full'},
+  { path: 'ngr-login', component: LoginComponent },
+  { path: 'ngr-basic', component: BasicComponent }
 ];
 
 @NgModule({
