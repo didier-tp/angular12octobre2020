@@ -7,5 +7,5 @@ tauxTva: <!-- <input type="text" [(ngModel)]="tauxTva" /> -->
 </select>    
     <br/>
 <!-- <input type="button" value="calculer" (click)="onCalculerTvaEtTtc()" /><br/> -->
-tva : {{tva}} <br/>
-ttc : {{ttc}} <br/>
+tva : {{tva | number:'1.0-2' }} <br/>
+ttc : {{ttc | number:'1.0-2' }} <br/>
