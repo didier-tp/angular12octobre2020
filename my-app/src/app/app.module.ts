@@ -9,6 +9,7 @@ import { BasicComponent } from './basic/basic.component';
 import { TvaComponent } from './basic/tva/tva.component';
 import { CalculatriceComponent } from './basic/calculatrice/calculatrice.component';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     FooterComponent,
     BasicComponent,
     TvaComponent,
-    CalculatriceComponent
+    CalculatriceComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

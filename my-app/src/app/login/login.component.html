@@ -1,0 +1,15 @@
+<p>login works!</p>
+<form #formLogin="ngForm">
+   <label>username:</label>
+   <input type="text" [(ngModel)]="login.username" 
+           name="username" required /> <br/>
+    <label>password:</label>
+    <input type="text" [(ngModel)]="login.password" 
+                   name="password" required /> <br/>
+   
+
+    <input type="button" value="login" [disabled]="!formLogin.form.valid" 
+           (click)="onLogin()" />
+</form>
+{{message}}
+
