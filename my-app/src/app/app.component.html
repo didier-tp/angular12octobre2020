@@ -4,9 +4,11 @@
 <app-header titre="titre1"  ></app-header>
 <app-header [titre]="'titre1'"  ></app-header> -->
 <app-header [titre]="title"  ></app-header>
-<h1>welcome</h1>
-<!-- {{title}} -->
+<!-- {{title}} 
 <app-login></app-login>
 <app-basic></app-basic>
+-->
+<router-outlet></router-outlet> <!-- sera remplace par le composant 
+                                    associé à la route/pseudo-url courante-->
 <app-footer  (changementHumeur)="onChangementHumeur($event)"></app-footer>
 </div>
