@@ -2,11 +2,17 @@
 <form #formLogin="ngForm">
    <label>username:</label>
    <input type="text" [(ngModel)]="login.username" 
-           name="username" required /> <br/>
+           name="username" required 
+           pattern="[A-Za-z].*"/> <br/>
+
     <label>password:</label>
     <input type="text" [(ngModel)]="login.password" 
+                   minlength="4"
                    name="password" required /> <br/>
-   
+
+    <label>roles:</label>
+    <input type="text" [(ngModel)]="login.roles" 
+                   name="roles" required />
 
     <input type="button" value="login" [disabled]="!formLogin.form.valid" 
            (click)="onLogin()" />
