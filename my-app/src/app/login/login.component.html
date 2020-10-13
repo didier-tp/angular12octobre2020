@@ -1,9 +1,13 @@
 <p>login works!</p>
-<form #formLogin="ngForm">
-   <label>username:</label>
-   <input type="text" [(ngModel)]="login.username" 
-           name="username" required 
-           pattern="[A-Za-z].*"/> <br/>
+<form #formLogin="ngForm" class="form-horizontal">
+   <div class="form-group row">  
+       <label class="control-label  col-sm-4">username:</label>
+       <div  class="col-sm-8">
+         <input type="text" [(ngModel)]="login.username" class="form-control"
+              name="username" required 
+              pattern="[A-Za-z].*"/> 
+       </div>
+   </div>
 
     <label>password:</label>
     <input type="text" [(ngModel)]="login.password" 
@@ -14,7 +18,8 @@
     <input type="text" [(ngModel)]="login.roles" 
                    name="roles" required />
 
-    <input type="button" value="login" [disabled]="!formLogin.form.valid" 
+    <input type="button" class="btn-primary"
+            value="login" [disabled]="!formLogin.form.valid" 
            (click)="onLogin()" />
 </form>
 {{message}}
