@@ -14,7 +14,11 @@ export class DeviseService {
     return of(this._tabDevise).pipe(delay(200)); 
                 //simulation asynchrone avec delai de 200ms
                 */
-    let url = "http://localhost:8282/devise-api/public/devise";
+    //let url = "http://localhost:8282/devise-api/public/devise";
+    let url = "./devise-api/public/devise";
+    //en mode dev , cette url sera automatiquement préfixée par http://localhost:8282
+    //selon les paramétrage de proxy.conf.json 
+    //si démarrage via ng serve --proxy-config proxy.conf.json
     return this._http.get<Devise[]>(url);
   }
 
@@ -25,7 +29,8 @@ export class DeviseService {
      return of(montant * 1.23456);
      */
     let url = 
-    `http://localhost:8282/devise-api/public/convert?source=${codeDeviseSource}&target=${codeDeviseCible}&amount=${montant}`;
+    `./devise-api/public/convert?source=${codeDeviseSource}&target=${codeDeviseCible}&amount=${montant}`;
+    //`http://localhost:8282/devise-api/public/convert?source=${codeDeviseSource}&target=${codeDeviseCible}&amount=${montant}`;
     return this._http.get<any>(url)
     .pipe(
       map((resWsConv)=>resWsConv.result)
