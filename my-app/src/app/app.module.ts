@@ -15,6 +15,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BsUtilModule } from '../bs-util/bs-util.module';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ConversionComponent } from './conversion/conversion.component';
+import { HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ConversionComponent } from './conversion/conversion.component';
     FormsModule,
     BrowserAnimationsModule,
     TabsModule.forRoot(),
-    BsUtilModule
+    BsUtilModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

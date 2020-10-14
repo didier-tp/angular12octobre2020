@@ -19,16 +19,23 @@ export class ConversionComponent implements OnInit {
         this._deviseService.convertir(this.montant,
                                       this.codeDeviseSource,
                                       this.codeDeviseCible)
-                          .subscribe({
-                           next: (montantRes :number)=>{this.montantConverti=montantRes;} ,
-                           error : (error)=>{ console.log(error);}
-                          });
+                          .subscribe( 
+                            (montantRes :number)=>{this.montantConverti=montantRes;} ,
+                            (error)=>{ console.log(error);}
+                          );
+  }
+
+  initialiserConv(tabDevises : Devise[]){
+    this.listeDevises = tabDevises;
+    this.codeDeviseSource=tabDevises[0].code;
+    this.codeDeviseCible=tabDevises[1].code;
+    this.montant=100;
   }
 
   constructor(private _deviseService : DeviseService) {
     console.log("1");
     _deviseService.getAllDevises().subscribe(
-      (tabDevises : Devise[])=>{ this.listeDevises = tabDevises;
+      (tabDevises : Devise[])=>{ this.initialiserConv(tabDevises);
                                   console.log("3 (après , en différé)")} ,
       (error)=>{ console.log(error);}
     );
