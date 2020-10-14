@@ -16,14 +16,20 @@ export class ConversionComponent implements OnInit {
   listeDevises : Devise[];
 
   onConvertir(){
-     this.montantConverti =
         this._deviseService.convertir(this.montant,
                                       this.codeDeviseSource,
-                                      this.codeDeviseCible);
+                                      this.codeDeviseCible)
+                          .subscribe(
+                            (montantRes)=>{this.montantConverti=montantRes;} ,
+                            (error)=>{ console.log(error);}
+                          );
   }
 
   constructor(private _deviseService : DeviseService) {
-    this.listeDevises = _deviseService.getAllDevises();
+    _deviseService.getAllDevises().subscribe(
+      (tabDevises)=>{ this.listeDevises = tabDevises} ,
+      (error)=>{ console.log(error);}
+    );
    }
 
   ngOnInit(): void {
