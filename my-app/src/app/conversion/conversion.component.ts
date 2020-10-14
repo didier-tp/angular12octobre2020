@@ -19,17 +19,20 @@ export class ConversionComponent implements OnInit {
         this._deviseService.convertir(this.montant,
                                       this.codeDeviseSource,
                                       this.codeDeviseCible)
-                          .subscribe(
-                            (montantRes)=>{this.montantConverti=montantRes;} ,
-                            (error)=>{ console.log(error);}
-                          );
+                          .subscribe({
+                           next: (montantRes :number)=>{this.montantConverti=montantRes;} ,
+                           error : (error)=>{ console.log(error);}
+                          });
   }
 
   constructor(private _deviseService : DeviseService) {
+    console.log("1");
     _deviseService.getAllDevises().subscribe(
-      (tabDevises)=>{ this.listeDevises = tabDevises} ,
+      (tabDevises : Devise[])=>{ this.listeDevises = tabDevises;
+                                  console.log("3 (après , en différé)")} ,
       (error)=>{ console.log(error);}
     );
+    console.log("2");
    }
 
   ngOnInit(): void {

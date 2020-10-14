@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Devise} from '../data/devise'
 
 @Injectable({
@@ -7,15 +8,9 @@ import { Devise} from '../data/devise'
 })
 export class DeviseService {
 
-  private _tabDevise : Devise[] = [
-    new Devise('EUR','Euro',1.0),
-    new Devise('USD','Dollar',1.1),
-    new Devise('GBP','Livre',0.9),
-    new Devise('JPY','Yen',123)
-  ];
-
   public getAllDevises() : Observable<Devise[]> {
-    return of(this._tabDevise);
+    return of(this._tabDevise).pipe(delay(200)); 
+                //simulation asynchrone avec delai de 200ms
   }
 
   public convertir(montant: number,
@@ -25,4 +20,11 @@ export class DeviseService {
   }
 
   constructor() { }
+
+  private _tabDevise : Devise[] = [
+    new Devise('EUR','Euro',1.0),
+    new Devise('USD','Dollar',1.1),
+    new Devise('GBP','Livre',0.9),
+    new Devise('JPY','Yen',123)
+  ];
 }
